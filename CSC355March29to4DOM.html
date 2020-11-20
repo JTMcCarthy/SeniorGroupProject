@@ -1,0 +1,141 @@
+<html>
+<head>
+<title>Form Validation</title>
+<script type = "text/javascript">
+
+function validate()
+{
+/* Q1. add the code that will perform the following operations:
+ - if the Student ID field is empty, the ID is not a number, and the length of the
+ ID is not equal to 8, using an alert box with a message "Please provide a
+ Student ID in the format ########."
+ - change the color of each border of the Student ID field to blue to remind the
+ user that he/she needs to fill a correct value.
+ - return false.
+ */
+var id = document.myForm.ID.value;
+var nID = Number(id);
+if(id == "")
+{
+    alert("Please provide a Student ID in the format ########.");
+    document.myForm.ID.focus();
+    return false;
+}
+else if(isNaN(nID))
+{
+    alert("Please provide a Student ID in the format ########.");
+    document.myForm.ID.focus();
+    return false;
+}
+else if(id.length != 8)
+{
+    alert("Please provide a Student ID in the format ########.");
+    document.myForm.ID.focus();
+    return false;
+}
+ /*Q2. add the code that will perform the following operations:
+ - if the Name field is empty, using an alert box with a message "Please
+ provide your name!"
+ - change the color of each border of the Name field to blue to remind the user
+ that he/she needs to fill a correct value.
+ - return false.
+ */
+var name = document.myForm.Name.value
+if(name == "")
+{
+    alert("Please provide your name!");
+    document.myForm.Name.focus();
+    return false;
+}
+ /*
+ - if the Name field is empty, using an alert box with a message "Please provide
+ your address!"
+ - change the color of each border of the Address field to blue to remind the user
+ that he/she needs to fill a correct value.
+ - return false.
+ */
+if( document.myForm.Address.value == "" )
+{
+    alert( "Please provide your address!" );
+    document.myForm.Address.focus();
+    return false;
+} 
+ /* Q3. add the code that will perform the following operations:
+ - if the EMail field is empty, using an alert box with a message "Please
+ provide your Email!"
+ - change the color of each border of the EMail field to blue to remind the user
+ that he/she needs to choose a correct value.
+ - return false.
+ */
+var email = document.myForm.EMail.value;
+if(email == "")
+{
+    alert("Please provide your Email!");
+    document.myForm.Email.focus();
+    return false;
+}
+
+ /* Q4. add the code that will perform the following operations:
+ - if the Major field is empty, using an alert box with a message "Please
+ provide your Major!"
+ - change the color of each border of the Major field to blue to remind the user
+ that he/she needs to choose a correct value.
+ - return false.
+ */
+if(document.myForm.Major.value == "")
+{
+    alert("Please provide your Major!");
+    document.myForm.Major.focus();
+    return false;
+}
+return( true );
+}
+</script>
+</head>
+<body>
+<h3>Student Information</h3>
+<form action = "" name = "myForm" onsubmit = "return(validate());">
+<table cellspacing = "2" cellpadding = "2" border = "1">
+
+<tr>
+<td align = "right">Student ID</td>
+<td id="ID"><input type = "text" name = "ID" /></td>
+</tr>
+
+<tr>
+<td align = "right">Student Name</td>
+<td><input type = "text" name = "Name" /></td>
+</tr>
+
+<tr>
+<td align = "right">Address</td>
+<td><input type = "text" name = "Address" /></td>
+</tr>
+ 
+<tr>
+<td align = "right">EMail</td>
+<td><input type = "text" name = "EMail" /></td>
+</tr>
+
+<tr>
+<td align = "right">Major</td>
+<td>
+<select name = "Major">
+<option value = "-1" selected>choose your major</option>
+<option value = "1">Computer Science</option>
+<option value = "2">Math</option>
+<option value = "3">Physics</option>
+<option value = "4">Music</option>
+<option value = "5">English</option>
+</select>
+</td>
+</tr>
+<tr>
+<td align = "right"></td>
+<td><input type = "submit" value = "Submit" /></td>
+</tr>
+</table>
+</form>
+
+</body>
+</html>
