@@ -1,34 +1,55 @@
 <?php
-function validatecourse()
+function validatecourses()
 {
-	for ($x = 0; $x <= 6; $x++)
+	for ($xy = 0; $xy <= 6; $xy++)
 	{
-		$y = $x + 1;
-		$userarr[$x] = $_POST["c1" . $y];
-		strval($userarr[$x]);
-		echo $userarr[$x]."<br>";
+		$end = $xy + 1;
+		$userarr[$xy] = $_POST["c1" . $end];
+		strval($userarr[$xy]);
+		echo $userarr[$xy]."<br>";
 	}
-	$requiredarray = file("Input.txt");
-	foreach($requiredarray as $z)
+	echo "<br>";
+	$carr = file("Input.txt");
+	$cfile = fopen("Input.txt", "r+");
+	for ($i = 0; $i < count($carr); $i++)
 	{
-		strval($z);
+		$rarr[$i] = fgets($cfile);
 	}
-	for ($i = 0; $i < count($requiredarray); $i++)
+	foreach($rarr as $co)
 	{
-		if (array_search($requiredarray[$i], $userarr, false) == false)
+		echo $co;
+		echo "<br>";
+	}
+	echo "<br>";
+	for ($c = 0; $c < count($rarr); $c++)
+	{
+		$spot = 0;
+		while (str_contains($rarr[$c], $userarr[$spot]) == false)
 		{
-			echo "Missing " . $requiredarray[$i] . "<br>"; 
+			if($spot == (count($userarr) - 1))
+			{
+				echo "Missing " . $rarr[$c] . "<br>";
+				break;
+			}
+			$spot = $spot + 1;
 		}
 	}
-	if($requiredarray[0] != $userarr[0])
+	//Testing
+	if('CSC 141' == $userarr[0])
 	{
-		echo $requiredarray[0];
-		echo $userarr[0];
-		echo "hello";
+		echo "user array working <br>";
+	}
+	if(str_contains($rarr[0], 'CSC 141'))
+	{
+		echo "required array working <br>";
+	}
+	if(str_contains($rarr[0], $userarr[0]))
+	{
+		echo "compare array working <br>";
 	}
 }
 if(isset($_POST["submit"]))
 {
-	validatecourse();
+	validatecourses();
 }
 ?>
