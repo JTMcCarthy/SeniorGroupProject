@@ -11,15 +11,15 @@
 	</style>
 	<script type="text/javascript" src="tablemaker.js">
 	</script>
-	<form method="post" action="validate.php">
+	<form id = "validation" method="post" action="validate.php">
 	<body>
 		
 		Number of Semesters needed:
-		<input type="text" id="numSemesters" />
+		<input type="text" name="seme" id="numSemesters" />
 		
 		<br>
 		Max courses per semester: 
-		<input type="text" id="numCourses" />
+		<input type="text" name="cour" id="numCourses" />
 		
 		<input type="button" onclick="myClass()" value="Create the table"/> 
 		
