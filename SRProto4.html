@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Student Information</title>
+	</head>
+	<style>
+		.course{
+		width:90px;
+		}
+	</style>
+	<script type="text/javascript" src="tablemaker.js">
+	</script>
+	<form>
+	<body>
+		Number of Semesters needed:
+		<input type="text" name="seme" id="numSemesters" />
+		<br>
+		Max courses per semester: 
+		<input type="text" name="cour" id="numCourses" />
+		<input type="button" onclick="myClass()" value="Create the table"/> 
+		<br><br>Required Courses<br>
+		Total: <a id = "ramount">5<a>
+		<ul id="ul1">
+			<li id="r0">CSC 141</li>
+			<li id="r1">CSC 200</li>
+			<li id="r2">CSC 495</li>
+			<li id="r3">CSC Elective 1</li>
+			<li id="r4">CSC Elective 2</li>
+		</ul><br>
+		<h1 align="center"><br>
+		My Schedule
+		</h1>
+		<table id="schedule" border="2" align="Center" width="55%">
+		</table>
+		<table id="schedule2" border="2" align="Center" width="50%">
+		</table>
+		<br>
+		<input type="button" onclick="validate()" value="Check Table"/> 
+	</form>
+		<p>
+		Missing Courses <br>
+		<a id = "display"></a><br>
+		<a id = "test"></a><br>
+		
+		</p>
+	</body>
+</html>
