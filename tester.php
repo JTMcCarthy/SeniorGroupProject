@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <?php 
+	$checker = true;
 	$name = $_POST["name"];
 	$ID = $_POST["ID"];
 	$major = $_POST["major"];
-	$t = 0;
-	while(isset($_POST["tc".$t]))
+	$tInput = isset($_POST['transcript'])?$_POST['transcript']:"";
+	if(strlen($tInput) == 0)
 	{
-		$tarr[$t] = $_POST["tc".$t];
-		$t++;
+		echo "no input";
+		$checker = false;
+	}
+	$tarr = explode("\n", str_replace("\r", "", $tInput));
+	if($checker == true)
+	{
+		$tarr = parseTranscript($tarr);
 	}
 	echo "<p>";
 	echo $name."<br>";
@@ -16,7 +22,10 @@
 	echo $tarr[0];
 	echo "</p>";
 	$carr = file("Courses//".$major.".txt");
-	$carr = transcriptEdit($tarr, $carr);
+	if($checker == true)
+	{
+		$carr = transcriptEdit($tarr, $carr);
+	}
 	function transcriptEdit($tarr, $carr)
 	{
 		for($i = 0; $i < count($tarr); $i++)
@@ -28,9 +37,24 @@
 					unset($carr[$j]);
 					$carr = array_values($carr);
 				}
+				//else if to catch electives and cores
 			}
 		}
 		return $carr;
+	}
+	function parseTranscript($tarr)
+	{
+		$j = 0;
+		$tarr = array_filter($tarr);
+		for($i = 0; $i < count($tarr); $i++)
+		{
+			if(isset($tarr[$i]))
+			{
+				$mtarr[$j] = substr($tarr[$i], 0, 6);
+				$j++;
+			}
+		}
+		return $mtarr;
 	}
 	function showCourses($arr)
 	{
