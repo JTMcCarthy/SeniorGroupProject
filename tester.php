@@ -3,12 +3,35 @@
 	$name = $_POST["name"];
 	$ID = $_POST["ID"];
 	$major = $_POST["major"];
+	$t = 0;
+	while(isset($_POST["tc".$t]))
+	{
+		$tarr[$t] = $_POST["tc".$t];
+		$t++;
+	}
 	echo "<p>";
 	echo $name."<br>";
 	echo $ID."<br>";
-	echo $major;
+	echo $major."<br>";
+	echo $tarr[0];
 	echo "</p>";
 	$carr = file("Courses//".$major.".txt");
+	$carr = transcriptEdit($tarr, $carr);
+	function transcriptEdit($tarr, $carr)
+	{
+		for($i = 0; $i < count($tarr); $i++)
+		{
+			for($j = 0; $j < count($carr); $j++)
+			{
+				if(str_contains($carr[$j], $tarr[$i]))
+				{
+					unset($carr[$j]);
+					$carr = array_values($carr);
+				}
+			}
+		}
+		return $carr;
+	}
 	function showCourses($arr)
 	{
 		echo "<ul id = 'ul1'>";
@@ -61,6 +84,10 @@
 		$js_array = json_encode($carr);
 		echo "var js_array = ".$js_array.";\n";
 	?>
+	for(var i = 0; i < js_array.length - 1; i++)
+		{
+			js_array[i] = js_array[i].slice(0,js_array[i].length-2);
+		}
 	function myClass()
 	{
 		var table = document.getElementById("schedule");
@@ -99,10 +126,6 @@
 	function validate()
 	{
 		var rarr = js_array;
-		for(var i = 0; i < rarr.length - 1; i++)
-		{
-			rarr[i] = rarr[i].slice(0,rarr[i].length-2);
-		}
 		var iarr = [];
 		var marr = [];
 		var sems = document.getElementById("numSemesters").value;

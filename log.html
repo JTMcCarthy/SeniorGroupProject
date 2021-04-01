@@ -11,9 +11,20 @@
         <option value = "English" id = "ENG" name = "English">English</option>
         <option value = "Mathmatics" id = "MTH" name = "Math">Math</option>
         <option value = "Engineering" id = "ENGR" name = "Engineering">Engineering</option>
-      </select>
+		</select>
+		<table name = "transcript" id="transcript" border="2" width="10%"></table>
+		<input type="button" onclick="tAdd()" value = "Add Course from Transcript"/><br>
     </br>
     <input type = "Submit" name = "Submit" value = "Submit">
     </form> 
+	<script type="text/javascript">
+		var tc = 0;
+		function tAdd()
+		{
+			var newRow = document.getElementById('transcript').insertRow();
+			newRow.innerHTML = '<input type="text" name = "tc'+tc+'">';
+			tc++;
+		}
+	</script>
   </body>
 </html>
