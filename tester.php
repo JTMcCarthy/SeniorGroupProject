@@ -32,26 +32,47 @@
 		{
 			for($j = 0; $j < count($carr); $j++)
 			{
+				$eTest = substr($tarr[$i], 0, 3)."_Elective";
+				$eTest2 = substr($tarr[$i], 0, 2)."_Elective";
+				$cTest = substr($tarr[$i], 0, 3)."_Core";
+				$cTest2 = substr($tarr[$i], 0, 2)."_Core";
 				if(str_contains($carr[$j], $tarr[$i]))
 				{
 					unset($carr[$j]);
 					$carr = array_values($carr);
 				}
-				//else if to catch electives and cores
+				elseif(str_contains($carr[$j], $eTest))
+				{
+					unset($carr[$j]);
+					$carr = array_values($carr);
+				}
+				elseif(str_contains($carr[$j], $eTest2))
+				{
+					unset($carr[$j]);
+					$carr = array_values($carr);
+				}
+				elseif(str_contains($carr[$j], $cTest))
+				{
+					unset($carr[$j]);
+					$carr = array_values($carr);
+				}
+				elseif(str_contains($carr[$j], $cTest2))
+				{
+					unset($carr[$j]);
+					$carr = array_values($carr);
+				}
 			}
 		}
 		return $carr;
 	}
 	function parseTranscript($tarr)
 	{
-		$j = 0;
-		$tarr = array_filter($tarr);
+		$tarr = array_values(array_filter($tarr, 'strlen'));
 		for($i = 0; $i < count($tarr); $i++)
 		{
 			if(isset($tarr[$i]))
 			{
-				$mtarr[$j] = substr($tarr[$i], 0, 6);
-				$j++;
+				$mtarr[$i] = substr($tarr[$i], 0, 6);
 			}
 		}
 		return $mtarr;
@@ -105,13 +126,30 @@
 	</p>
 <script type="text/javascript">
 	<?php
+		$sumArr = file("Sections//Summer.txt");
+		$fallArr = file("Sections//Fall.txt");
+		$sprArr = file("Sections//Spring.txt");
+		$js_sumArr = json_encode($sumArr);
+		$js_fallArr = json_encode($fallArr);
+		$js_sprArr = json_encode($sprArr);
 		$js_array = json_encode($carr);
 		echo "var js_array = ".$js_array.";\n";
+		echo "var js_sumArr = ".$js_sumArr.";\n";
+		echo "var js_fallArr = ".$js_fallArr.";\n";
+		echo "var js_sprArr = ".$js_sprArr.";\n";
 	?>
-	for(var i = 0; i < js_array.length - 1; i++)
+	js_sumArr = arrTrim(js_sumArr);
+	js_fallArr = arrTrim(js_fallArr);
+	js_sprArr = arrTrim(js_sprArr);
+	js_array = arrTrim(js_array);
+	function arrTrim(arr)
+	{
+		for(var i = 0; i < arr.length - 1; i++)
 		{
-			js_array[i] = js_array[i].slice(0,js_array[i].length-2);
+			arr[i] = arr[i].slice(0, arr[i].length-2);
 		}
+		return arr;
+	}
 	function myClass()
 	{
 		var table = document.getElementById("schedule");
