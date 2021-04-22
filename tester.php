@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <?php 
 	$checker = true;
-	$name = $_POST["name"];
-	$ID = $_POST["ID"];
+	if (strlen($_POST["name"]) != 0)
+	{
+		$name = $_POST["name"];
+	}
+	if (strlen($_POST["ID"]) != 0)
+	{
+		$ID = $_POST["ID"];
+	}
 	$major = $_POST["major"];
 	$tInput = isset($_POST['transcript'])?$_POST['transcript']:"";
 	if(strlen($tInput) == 0)
 	{
-		echo "no input";
 		$checker = false;
 	}
 	$tarr = explode("\n", str_replace("\r", "", $tInput));
@@ -15,12 +20,12 @@
 	{
 		$tarr = parseTranscript($tarr);
 	}
-	echo "<p>";
+	/*echo "<p>";
 	echo $name."<br>";
 	echo $ID."<br>";
 	echo $major."<br>";
 	echo $tarr[0];
-	echo "</p>";
+	echo "</p>";*/
 	$carr = file("Courses//".$major.".txt");
 	if($checker == true)
 	{
@@ -96,33 +101,56 @@
 	<title>Student Information</title>
 </head>
 <body>
+<link rel= "stylesheet" type = "text/css" href="ProtoStyle.css">
+	<div id = "CornerImg"></div>
+	<h1 id="Title"><span>Student Information</span></h1>
+	<div id = "links"> 
+			<a id="registrar" href = "https://www.stmartin.edu/directory/office-registrar">Registrar</a>
+			<a id="AddDrop" href = "https://www.stmartin.edu/sites/default/files/smu-files/registrar/2019-add-drop-form-fillable.pdf">Add/Drop Form</a>
+			<a id="Change" href = "https://www.stmartin.edu/sites/default/files/smu-files/registrar/2019-change-major-advisor-fillable_0.pdf">Change Form</a>
+			<a id ="Max" href="https://www.stmartin.edu/sites/default/files/smu-files/registrar/2019-maximum-credit-exception-rev.pdf">Max Credit Form</a>
+			<a id="SelfServ" href="https://selfservice.stmartin.edu/selfservice/home.aspx">Self-Service</a>
+	</div>
 	<p>
-		<br>Required Courses<br>
-		<?php
-		showCourses($carr);
-		?><br>
-		Total:
-		<?php
-		showAmount($carr);
-		?><br>
+		<div id = "topNums">
 		Number of Semesters needed:
 		<input type="text" name="seme" id="numSemesters" />
 		<br>
 		Max courses per semester: 
 		<input type="text" name="cour" id="numCourses" />
-		<input type="button" onclick="myClass()" value="Create the table"/><br>
-		<h1 align="center"><br>
+		<br>
+		<input type="button" onclick="myClass()" value="Create the table"/>
+		</div>
+		<h1 align="center">
 		My Schedule
 		</h1>
-		<table id="schedule" border="2" align="Center" width="55%">
+		<div id="Format">
+		<table id="schedule" border="2" width="55%">
 		</table>
-		<table id="schedule2" border="2" align="Center" width="50%">
+		<table id="schedule2" border="2" width="50%">
 		</table>
+		</div>
 		<br>
+		<div id="cTable">
 		<input type="button" onclick="validate()" value="Check Table"/>
-		<br>Missing Courses <br>
-		<a id = "display"></a><br>
-		<a id = "test"></a><br>
+		</div>
+		<div id="bodyText">
+		<br><b>Required Courses</b><br>
+		<?php
+		showCourses($carr);
+		?>
+		Total:
+		<?php
+		showAmount($carr);
+		?>
+			<div id="missing">
+			<br>
+			<b>Missing Courses</b>
+			<br><br>
+			<a id = "display"></a><br>
+			<a id = "test"></a><br>
+			</div>
+		</div>
 	</p>
 <script type="text/javascript">
 	<?php
@@ -148,6 +176,10 @@
 		{
 			arr[i] = arr[i].slice(0, arr[i].length-2);
 		}
+		if(arr[arr.length-1].includes("\n"))
+		{
+			arr[arr.length-1] = arr[arr.length-1].slice(0, arr[arr.length-1].length-2);
+		}
 		return arr;
 	}
 	function myClass()
@@ -166,7 +198,7 @@
 				var semNum = c+1;
 				//var first = x.insertcell();
 				var y= x.insertCell();
-				y.innerHTML = '<class = "semester"> Semester ' + semNum;
+				y.innerHTML = '<a class = "semester"> Semester ' +semNum+'</a><br><select id = "semSec'+semNum+'"><option value = "default"><b>Choose a Section</b></option><option value = "Fall" id = "Fall" name = "Fall">Fall</option><option value = "Spring" id = "Spring" name = "Spring">Spring</option><option value = "Summer" id = "Summer" name = "Summer">Summer</option></select>';
 			}
 		}
 		var table2 = document.getElementById("schedule2");
@@ -250,6 +282,68 @@
 		else
 		{
 			document.getElementById("display").innerHTML = "No missing courses!<br>"
+		}
+		
+		
+		for(var m = 0 ; m < sems; m++)
+		{
+			if(document.getElementById('semSec'+(m+1)) == null)
+			{
+				alert('Choose a section for Semester ');
+			}
+			var sec = document.getElementById('semSec'+(m+1)).value;
+			if(sec == "Fall")
+			{
+				for(var i = 0; i < cours; i++)
+				{
+					var co = document.getElementById('c'+m+i).value;
+					if(js_sprArr.includes(co))
+					{
+						alert(co+' is offered in Spring Semesters');
+						document.getElementById('c'+m+i).focus();
+					}
+					else if(js_sumArr.includes(co))
+					{
+						alert(co+' is offered in Summer Semesters');
+						document.getElementById('c'+m+i).focus();
+					}
+				}
+				
+			}
+			else if(sec == "Spring")
+			{
+				for(var i = 0; i < cours; i++)
+				{
+					var co = document.getElementById('c'+m+i).value;
+					if(js_fallArr.includes(co))
+					{
+						alert(co+' is offered in Fall Semesters');
+						document.getElementById('c'+m+i).focus();
+					}
+					else if(js_sumArr.includes(co))
+					{
+						alert(co+' is offered in Summer Semesters');
+						document.getElementById('c'+m+i).focus();
+					}
+				}
+			}
+			else if (sec == "Summer")
+			{
+				for(var i = 0; i < cours; i++)
+				{
+					var co = document.getElementById('c'+m+i).value;
+					if(js_sprArr.includes(co))
+					{
+						alert(co+' is offered in Spring Semesters');
+						document.getElementById('c'+m+i).focus();
+					}
+					else if(js_fallArr.includes(co))
+					{
+						alert(co+' is offered in Fall Semesters');
+						document.getElementById('c'+m+i).focus();
+					}
+				}
+			}
 		}
 	}
 </script>
